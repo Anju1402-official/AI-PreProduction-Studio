@@ -1,0 +1,6 @@
+# Downloaded model weights -- regenerate with ml_models/*/download.py
+ml_models/emotion_model/cache/
+ml_models/ner_model/cache/
+
+# OS / editor cruft
+.DS_Store
