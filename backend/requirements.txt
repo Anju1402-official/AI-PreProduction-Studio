@@ -14,7 +14,12 @@ PyPDF2==3.0.1
 razorpay==2.0.1
 email-validator==2.3.0
 
-# --- AI / NLP pipeline ---
+# --- OpenAI ---
+# Primary AI backend for emotion/character/shot/BGM/scene-importance/
+# cost-estimation/storyboard analysis. See app/services/openai_service.py.
+openai==2.44.0
+
+# --- AI / NLP pipeline (local fallback models) ---
 # CPU-only torch is strongly recommended for deployment (much smaller image,
 # no CUDA deps needed since this runs on a CPU-only Render/Fly/EC2 instance).
 # Install with the CPU wheel index, e.g.:

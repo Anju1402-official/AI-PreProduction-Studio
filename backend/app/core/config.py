@@ -22,6 +22,33 @@ class Settings(BaseSettings):
     )
     NER_MODEL_NAME: str = "en_core_web_trf"
 
+    # --- OpenAI ---
+    # Primary AI backend for emotion/dialogue/scene-importance/shot/BGM/
+    # storyboard/script-review analysis. The local HF/spaCy models above
+    # remain as an automatic fallback if OpenAI is unreachable, mis-
+    # configured, or rate-limited -- see app/services/openai_service.py.
+    OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-5-nano"
+    # Per-request timeout in seconds. GPT-5-class "nano" models are meant to
+    # be fast; a generous-but-bounded timeout keeps a stuck request from
+    # hanging the upload pipeline indefinitely.
+    OPENAI_TIMEOUT_SECONDS: float = 30.0
+    # Number of retries for transient failures (rate limits, connection
+    # errors, timeouts) before falling back to the local model / a safe
+    # default. Uses exponential backoff between attempts.
+    OPENAI_MAX_RETRIES: int = 2
+    # If true, scripts longer than ~20 scenes get a single combined OpenAI
+    # call per analysis type instead of one call per scene, to keep token
+    # usage and request count down on longer screenplays.
+    OPENAI_BATCH_ANALYSIS: bool = True
+
+    # If true, use OpenAI for emotion analysis and character tracking
+    # instead of the local HF/spaCy models (job 5 of the integration); the
+    # local models are always still available as a same-run fallback if an
+    # OpenAI call fails, regardless of this flag.
+    USE_OPENAI_FOR_EMOTION: bool = True
+    USE_OPENAI_FOR_CHARACTERS: bool = True
+
     # If true, the upload pipeline runs synchronously inside the upload request.
     # If false, it's dispatched as a FastAPI BackgroundTask and the script's
     # status starts as "processing" until the pipeline finishes.

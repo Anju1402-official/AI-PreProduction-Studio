@@ -254,6 +254,7 @@ def run_pipeline(db: Session, script: Script) -> None:
             "scene_number": s.scene_number,
             "heading": s.heading,
             "time_of_day": s.time_of_day,
+            "action_lines": s.action_lines,
             "dominant_emotion": emotion_by_scene_number.get(s.scene_number, {}).get("dominant_emotion"),
             "character_count": len(scene_characters.get(s.id, [])),
         }
@@ -274,6 +275,7 @@ def run_pipeline(db: Session, script: Script) -> None:
             "scene_number": s.scene_number,
             "heading": s.heading,
             "time_of_day": s.time_of_day,
+            "action_lines": s.action_lines,
             "dominant_emotion": emotion_by_scene_number.get(s.scene_number, {}).get("dominant_emotion"),
         }
         for s in scenes
