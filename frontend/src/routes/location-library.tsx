@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/dashboard/ComingSoon";
+import { LibraryShell } from "@/components/studio/LibraryShell";
 
 export const Route = createFileRoute("/location-library")({
   head: () => ({ meta: [{ title: "Location Library — Studio" }] }),
   component: () => (
-    <ComingSoon
+    <LibraryShell
       eyebrow="Asset Library"
       title="Location Library"
-      description="Scouted locations with permits, light maps, and notes."
+      description="Worlds and settings you've built — geography, factions, and history."
+      kind="world"
+      emptyCtaLabel="Build a World"
+      emptyCtaTo="/world-builder"
     />
   ),
 });

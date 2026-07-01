@@ -41,6 +41,34 @@ const CATEGORY_STYLES: Record<string, string> = {
   "Redundant Scene": "border-white/10 bg-white/5 text-muted-foreground",
 };
 
+/**
+ * Custom legend for the Emotional Flow chart. Recharts' default legend
+ * renders plain sans labels; this one renders each emotion name (Joy,
+ * Sadness, Fear, Anger, Tension) in the studio's premium display font
+ * (Cinzel) with a small letter-spaced, color-matched swatch so the chart
+ * reads as part of the premium UI rather than a stock recharts widget.
+ */
+function EmotionLegend() {
+  return (
+    <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+      {Object.entries(EMOTION_PALETTE).map(([name, color]) => (
+        <span key={name} className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ background: color, boxShadow: `0 0 8px -1px ${color}` }}
+          />
+          <span
+            className="text-xs uppercase tracking-[0.18em] text-foreground/80"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            {name}
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function AnalysisTab({ data }: { data: AnalysisTabData }) {
   const emotionChartData = (data.emotion?.emotions ?? []).map((e) => ({
     scene: String(e.scene_number),
@@ -70,7 +98,7 @@ export function AnalysisTab({ data }: { data: AnalysisTabData }) {
           </h3>
           <div className="h-72">
             <ResponsiveContainer>
-              <AreaChart data={emotionChartData}>
+              <AreaChart data={emotionChartData} margin={{ top: 8, right: 8, bottom: 4, left: -8 }}>
                 <defs>
                   {Object.entries(EMOTION_PALETTE).map(([k, c]) => (
                     <linearGradient id={`unified-g-${k}`} key={k} x1="0" y1="0" x2="0" y2="1">
@@ -80,15 +108,23 @@ export function AnalysisTab({ data }: { data: AnalysisTabData }) {
                   ))}
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.85 0.155 86 / 0.08)" />
-                <XAxis dataKey="scene" tick={{ fill: "#9a9a9a", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#9a9a9a", fontSize: 11 }} />
+                <XAxis
+                  dataKey="scene"
+                  tick={{ fill: "#9a9a9a", fontSize: 11, fontFamily: "var(--font-display)" }}
+                />
+                <YAxis tick={{ fill: "#9a9a9a", fontSize: 11, fontFamily: "var(--font-display)" }} />
                 <Tooltip
                   contentStyle={{
                     background: "#0d0d0d",
                     border: "1px solid oklch(0.85 0.155 86 / 0.3)",
+                    borderRadius: 12,
+                    fontFamily: "var(--font-display)",
+                    letterSpacing: "0.04em",
                   }}
+                  labelStyle={{ fontFamily: "var(--font-display)", color: "var(--gold-bright)" }}
+                  itemStyle={{ fontFamily: "var(--font-display)" }}
                 />
-                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Legend content={<EmotionLegend />} />
                 {Object.entries(EMOTION_PALETTE).map(([k, c]) => (
                   <Area
                     key={k}
@@ -115,18 +151,23 @@ export function AnalysisTab({ data }: { data: AnalysisTabData }) {
               <ResponsiveContainer>
                 <BarChart data={speakers} layout="vertical" margin={{ left: 30 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.85 0.155 86 / 0.08)" />
-                  <XAxis type="number" tick={{ fill: "#9a9a9a", fontSize: 11 }} />
+                  <XAxis type="number" tick={{ fill: "#9a9a9a", fontSize: 11, fontFamily: "var(--font-display)" }} />
                   <YAxis
                     type="category"
                     dataKey="character_name"
-                    tick={{ fill: "#9a9a9a", fontSize: 11 }}
+                    tick={{ fill: "#9a9a9a", fontSize: 11, fontFamily: "var(--font-display)" }}
                     width={100}
                   />
                   <Tooltip
                     contentStyle={{
                       background: "#0d0d0d",
                       border: "1px solid oklch(0.85 0.155 86 / 0.3)",
+                      borderRadius: 12,
+                      fontFamily: "var(--font-display)",
+                      letterSpacing: "0.04em",
                     }}
+                    labelStyle={{ fontFamily: "var(--font-display)", color: "var(--gold-bright)" }}
+                    itemStyle={{ fontFamily: "var(--font-display)" }}
                   />
                   <Bar dataKey="word_count" fill="oklch(0.85 0.155 86)" radius={[0, 6, 6, 0]} />
                 </BarChart>

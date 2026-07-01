@@ -179,3 +179,120 @@
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
+
+/* ----------------------------------------------------------------------
+   Cinema-themed animations
+   Subtle, premium, and entirely decorative (all pointer-events:none where
+   used as overlays). Designed for the dark film-studio palette so they
+   read as "cinema" — film grain, a projector light sweep, a flickering
+   marquee glow, a turning film reel, and a horizontally-scrolling
+   filmstrip of sprocket holes.
+   ---------------------------------------------------------------------- */
+
+/* Animated film grain: a tiled noise texture nudged a few px each frame so
+   it crawls like real celluloid grain. The SVG fractal-noise data URI keeps
+   it dependency-free. */
+@keyframes film-grain {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-4%, -3%); }
+  20%  { transform: translate(-8%, 2%); }
+  30%  { transform: translate(2%, -8%); }
+  40%  { transform: translate(-3%, 6%); }
+  50%  { transform: translate(-6%, -2%); }
+  60%  { transform: translate(5%, 4%); }
+  70%  { transform: translate(-2%, 7%); }
+  80%  { transform: translate(4%, -5%); }
+  90%  { transform: translate(-5%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+@utility cinema-grain {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: film-grain 0.6s steps(6) infinite;
+}
+
+/* Projector light sweep: a faint warm beam that drifts across the screen
+   on a long loop, like the cone of light from a film projector. */
+@keyframes projector-sweep {
+  0%   { transform: translateX(-60%) skewX(-12deg); opacity: 0; }
+  15%  { opacity: 0.55; }
+  50%  { opacity: 0.5; }
+  85%  { opacity: 0.55; }
+  100% { transform: translateX(160%) skewX(-12deg); opacity: 0; }
+}
+@utility cinema-sweep {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 40%;
+  height: 140%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    oklch(0.85 0.155 86 / 0.05) 40%,
+    oklch(0.9 0.16 88 / 0.08) 50%,
+    oklch(0.85 0.155 86 / 0.05) 60%,
+    transparent
+  );
+  filter: blur(8px);
+  animation: projector-sweep 14s ease-in-out infinite;
+}
+
+/* Marquee flicker: an old-cinema neon-sign flicker for accent glows. */
+@keyframes marquee-flicker {
+  0%, 19%, 21%, 23%, 80%, 100% { opacity: 1; filter: drop-shadow(0 0 6px oklch(0.85 0.155 86 / 0.7)); }
+  20%, 22%, 24% { opacity: 0.45; filter: drop-shadow(0 0 1px oklch(0.85 0.155 86 / 0.3)); }
+  55%, 57% { opacity: 0.7; }
+}
+@utility animate-marquee-flicker { animation: marquee-flicker 5s linear infinite; }
+
+/* Film reel: a steady rotation for reel / aperture icons. */
+@keyframes reel-spin { to { transform: rotate(360deg); } }
+@utility animate-reel-spin { animation: reel-spin 9s linear infinite; }
+
+/* Clapperboard snap: a quick tilt-and-return, like the clapper sticks
+   snapping shut before a take. Used on hover of the brand logo. */
+@keyframes clapper-snap {
+  0%   { transform: rotate(0deg); }
+  30%  { transform: rotate(-16deg); }
+  55%  { transform: rotate(2deg); }
+  75%  { transform: rotate(-4deg); }
+  100% { transform: rotate(0deg); }
+}
+@utility animate-clapper-snap { animation: clapper-snap 0.6s ease-out; }
+
+/* Filmstrip: a strip of sprocket holes scrolling horizontally, used as a
+   thin decorative band. The holes are drawn with a repeating-linear bg. */
+@keyframes filmstrip-scroll { to { background-position: -64px 0, -64px 0; } }
+@utility cinema-filmstrip {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 18px,
+      oklch(0.85 0.155 86 / 0.18) 18px 30px,
+      transparent 30px 32px
+    ),
+    repeating-linear-gradient(90deg, transparent 0 31px, transparent 31px 32px);
+  background-size: 32px 100%;
+  animation: filmstrip-scroll 1.6s linear infinite;
+}
+
+/* Honor users who prefer less motion: freeze the looping decorative
+   animations (keep their painted end-state, just stop them moving). */
+@media (prefers-reduced-motion: reduce) {
+  .cinema-grain,
+  .cinema-sweep,
+  .cinema-filmstrip,
+  .animate-marquee-flicker,
+  .animate-reel-spin,
+  .animate-float-light,
+  .animate-shimmer {
+    animation: none !important;
+  }
+  .cinema-grain { opacity: 0.04; }
+}

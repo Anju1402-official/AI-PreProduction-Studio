@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import analysis, auth, dashboard, payments, scripts
+from app.api import analysis, auth, dashboard, payments, scripts, studio
 from app.database import Base, engine
 
 # Import all models so SQLAlchemy creates every table.
@@ -12,6 +12,7 @@ from app.models import (  # noqa: F401
     analysis_result,
     character,
     dialogue,
+    generated_artifact,
     scene,
     scene_emotion,
     script,
@@ -87,6 +88,7 @@ app.include_router(scripts.router)
 app.include_router(analysis.router)
 app.include_router(dashboard.router)
 app.include_router(payments.router)
+app.include_router(studio.router)
 
 
 @app.get("/")

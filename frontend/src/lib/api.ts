@@ -7,7 +7,7 @@
 
 export const API_BASE_URL: string =
   (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, "") ||
-  "https://ai-preprod-backend.onrender.com";
+  "http://127.0.0.1:8000";
 
 const TOKEN_KEY = "auth_token";
 
@@ -430,6 +430,51 @@ export interface PlanInfo {
   features: string[];
 }
 
+/* ---- Studio: generators, libraries, templates ---- */
+
+export type ArtifactKind = "story" | "script" | "character" | "world" | "storyboard" | "template";
+
+export interface Artifact {
+  id: number;
+  user_id: number | null;
+  kind: ArtifactKind;
+  title: string;
+  summary: string | null;
+  content: Record<string, unknown> | null;
+  prompt: Record<string, unknown> | null;
+  model: string | null;
+  created_at: string;
+}
+
+export interface ArtifactSummary {
+  id: number;
+  kind: ArtifactKind;
+  title: string;
+  summary: string | null;
+  model: string | null;
+  created_at: string;
+}
+
+export interface ScriptCorrectionIssue {
+  category: "continuity" | "formatting" | "dialogue" | "grammar";
+  description: string;
+  suggestion: string;
+}
+
+export interface ScriptCorrectionSceneResult {
+  scene_number: number;
+  heading: string;
+  issues: ScriptCorrectionIssue[];
+}
+
+export interface ScriptCorrectionResponse {
+  script_id: number;
+  scenes_reviewed: number;
+  scenes_with_issues: number;
+  results: ScriptCorrectionSceneResult[];
+  ai_used: boolean;
+}
+
 /* ------------------------------------------------------------------ */
 /* API surface                                                        */
 /* ------------------------------------------------------------------ */
@@ -529,6 +574,43 @@ export const api = {
     },
     checkLimit(userId: number) {
       return request<PlanLimitResponse>(`/payments/check-limit/${userId}`);
+    },
+  },
+
+  studio: {
+    generateStory(body: { prompt: string; genre?: string; tone?: string }) {
+      return request<Artifact>("/studio/generate/story", { method: "POST", body, retries: 0 });
+    },
+    generateScript(body: { premise: string; genre?: string; num_scenes?: number }) {
+      return request<Artifact>("/studio/generate/script", { method: "POST", body, retries: 0 });
+    },
+    generateCharacter(body: { brief: string; role?: string }) {
+      return request<Artifact>("/studio/generate/character", { method: "POST", body, retries: 0 });
+    },
+    generateWorld(body: { concept: string; genre?: string }) {
+      return request<Artifact>("/studio/generate/world", { method: "POST", body, retries: 0 });
+    },
+    generateStoryboard(body: { scene_description: string; num_panels?: number }) {
+      return request<Artifact>("/studio/generate/storyboard", { method: "POST", body, retries: 0 });
+    },
+    library(kind?: ArtifactKind) {
+      const qs = kind ? `?kind=${kind}` : "";
+      return request<ArtifactSummary[]>(`/studio/library${qs}`);
+    },
+    artifact(id: number) {
+      return request<Artifact>(`/studio/library/${id}`);
+    },
+    deleteArtifact(id: number) {
+      return request<void>(`/studio/library/${id}`, { method: "DELETE" });
+    },
+    templates() {
+      return request<Artifact[]>("/studio/templates");
+    },
+    correctScript(scriptId: number) {
+      return request<ScriptCorrectionResponse>(`/studio/scripts/${scriptId}/correct`, {
+        method: "POST",
+        retries: 0,
+      });
     },
   },
 };

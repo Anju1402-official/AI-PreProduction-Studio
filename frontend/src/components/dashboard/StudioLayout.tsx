@@ -9,13 +9,17 @@ export function StudioLayout({ children }: { children: ReactNode }) {
     <RequireAuth>
       <MobileSidebarProvider>
         <div className="relative flex min-h-screen w-full text-foreground">
-          <div className="pointer-events-none fixed inset-0 -z-10">
+          <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
             <div className="absolute left-[18%] top-10 h-72 w-72 rounded-full bg-[oklch(0.85_0.155_86/0.10)] blur-[120px] animate-float-light" />
             <div
               className="absolute right-[8%] top-[40%] h-96 w-96 rounded-full bg-[oklch(0.78_0.135_84/0.08)] blur-[140px] animate-float-light"
               style={{ animationDelay: "2s" }}
             />
+            {/* Projector light beam drifting across the frame */}
+            <div className="cinema-sweep" />
             <div className="absolute inset-0" style={{ background: "var(--gradient-vignette)" }} />
+            {/* Celluloid film grain over everything */}
+            <div className="cinema-grain" />
           </div>
           <Sidebar />
           <div className="flex min-w-0 flex-1 flex-col">
@@ -43,7 +47,8 @@ export function PageHeader({
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <div className="mb-2 text-[10px] uppercase tracking-[0.32em] text-[var(--gold-dim)]">
+          <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-[var(--gold-dim)]">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--gold-bright)] animate-marquee-flicker" />
             {eyebrow}
           </div>
         )}
@@ -52,8 +57,10 @@ export function PageHeader({
             {title}
           </span>
         </h1>
+        {/* Cinematic filmstrip accent under the title */}
+        <div className="mt-3 h-1.5 w-28 overflow-hidden rounded-full opacity-60 cinema-filmstrip" />
         {description && (
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">{description}</p>
         )}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}

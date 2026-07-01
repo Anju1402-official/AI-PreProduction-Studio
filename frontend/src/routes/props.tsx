@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/dashboard/ComingSoon";
+import { LibraryShell } from "@/components/studio/LibraryShell";
 
 export const Route = createFileRoute("/props")({
-  head: () => ({ meta: [{ title: "Props & Assets — Studio" }] }),
+  head: () => ({ meta: [{ title: "Script Library — Studio" }] }),
   component: () => (
-    <ComingSoon
+    <LibraryShell
       eyebrow="Asset Library"
-      title="Props & Assets"
-      description="Props, vehicles, and hero items — tracked across departments."
+      title="Script Library"
+      description="Short screenplays you've generated, scene by scene."
+      kind="script"
+      emptyCtaLabel="Generate a Script"
+      emptyCtaTo="/script-generator"
     />
   ),
 });

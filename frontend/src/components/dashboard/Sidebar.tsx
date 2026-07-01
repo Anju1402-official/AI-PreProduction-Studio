@@ -7,7 +7,6 @@ import {
   Users,
   Globe2,
   LayoutTemplate,
-  ScanSearch,
   Heart,
   MessagesSquare,
   Star,
@@ -55,12 +54,6 @@ const groups: Group[] = [
   {
     title: "Analyze",
     items: [
-      {
-        label: "Script Dashboard",
-        icon: ScanSearch,
-        to: "/script-upload",
-        badge: "Unified",
-      },
       { label: "Script Correction", icon: Wand2, to: "/script-correction" },
     ],
   },
@@ -102,9 +95,11 @@ export function Sidebar() {
     <div className="sticky top-0 flex h-screen flex-col">
       {/* Brand */}
       <div className="relative flex items-start justify-between px-6 pb-5 pt-6">
-        <Link to="/" className="flex items-start gap-3" onClick={close}>
+        <Link to="/" className="group flex items-start gap-3" onClick={close}>
           <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-[oklch(0.85_0.155_86/0.35)] bg-gradient-to-br from-[#1a1408] to-black shadow-[0_0_24px_-6px_oklch(0.85_0.155_86/0.7)]">
-            <Clapperboard className="h-6 w-6 text-[var(--gold-bright)]" />
+            <Clapperboard
+              className="h-6 w-6 text-[var(--gold-bright)] origin-top-left transition group-hover:animate-clapper-snap"
+            />
           </div>
           <div className="leading-tight">
             <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--gold-dim)]">

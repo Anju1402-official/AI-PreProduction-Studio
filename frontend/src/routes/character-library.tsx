@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/dashboard/ComingSoon";
+import { LibraryShell } from "@/components/studio/LibraryShell";
 
 export const Route = createFileRoute("/character-library")({
   head: () => ({ meta: [{ title: "Character Library — Studio" }] }),
   component: () => (
-    <ComingSoon
+    <LibraryShell
       eyebrow="Asset Library"
       title="Character Library"
-      description="Casting boards, wardrobe, and character bibles."
+      description="Casting boards and character bibles you've generated."
+      kind="character"
+      emptyCtaLabel="Generate a Character"
+      emptyCtaTo="/characters"
     />
   ),
 });

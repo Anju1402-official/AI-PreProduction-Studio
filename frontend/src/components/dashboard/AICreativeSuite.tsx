@@ -12,7 +12,7 @@ const agents = [
     name: "Writer Agent",
     img: writer,
     desc: "Generate stories, plots and compelling scripts.",
-    cta: "Coming Soon",
+    cta: "Generate Story",
     icon: PenLine,
     to: "/story-generator" as const,
   },

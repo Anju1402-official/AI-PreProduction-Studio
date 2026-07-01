@@ -51,10 +51,12 @@ function Login() {
 
   return (
     <main className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-background px-4">
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-[18%] top-10 h-72 w-72 rounded-full bg-[oklch(0.85_0.155_86/0.10)] blur-[120px]" />
-        <div className="absolute right-[8%] top-[40%] h-96 w-96 rounded-full bg-[oklch(0.78_0.135_84/0.08)] blur-[140px]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-[18%] top-10 h-72 w-72 rounded-full bg-[oklch(0.85_0.155_86/0.10)] blur-[120px] animate-float-light" />
+        <div className="absolute right-[8%] top-[40%] h-96 w-96 rounded-full bg-[oklch(0.78_0.135_84/0.08)] blur-[140px] animate-float-light" style={{ animationDelay: "2s" }} />
+        <div className="cinema-sweep" />
         <div className="absolute inset-0" style={{ background: "var(--gradient-vignette)" }} />
+        <div className="cinema-grain" />
       </div>
 
       <motion.div

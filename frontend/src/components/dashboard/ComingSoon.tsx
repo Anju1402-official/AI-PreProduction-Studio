@@ -1,11 +1,12 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { toast } from "sonner";
 import {
   StudioLayout,
   PageHeader,
   GlassCard,
   GoldButton,
 } from "@/components/dashboard/StudioLayout";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Check } from "lucide-react";
 
 export function ComingSoon({
   eyebrow,
@@ -18,6 +19,8 @@ export function ComingSoon({
   description: string;
   preview?: ReactNode;
 }) {
+  const [joined, setJoined] = useState(false);
+
   return (
     <StudioLayout>
       <PageHeader
@@ -25,8 +28,25 @@ export function ComingSoon({
         title={title}
         description={description}
         actions={
-          <GoldButton>
-            <Sparkles className="h-3.5 w-3.5" /> Join Waitlist
+          <GoldButton
+            onClick={() => {
+              if (joined) return;
+              setJoined(true);
+              toast.success(`You're on the waitlist for ${title}.`, {
+                description: "We'll email you the moment it's ready.",
+              });
+            }}
+            className={joined ? "pointer-events-none opacity-80" : ""}
+          >
+            {joined ? (
+              <>
+                <Check className="h-3.5 w-3.5" /> On the Waitlist
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-3.5 w-3.5" /> Join Waitlist
+              </>
+            )}
           </GoldButton>
         }
       />

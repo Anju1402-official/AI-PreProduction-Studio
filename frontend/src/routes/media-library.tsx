@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/dashboard/ComingSoon";
+import { LibraryShell } from "@/components/studio/LibraryShell";
 
 export const Route = createFileRoute("/media-library")({
   head: () => ({ meta: [{ title: "Media Library — Studio" }] }),
   component: () => (
-    <ComingSoon
+    <LibraryShell
       eyebrow="Asset Library"
       title="Media Library"
-      description="Every frame, plate, and reference image — one searchable vault."
+      description="Every story and script you've generated — one searchable vault."
+      emptyCtaLabel="Generate a Story"
+      emptyCtaTo="/story-generator"
     />
   ),
 });
