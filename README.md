@@ -199,3 +199,5 @@ or a deterministic heuristic grounded in the script's actual structure
 docstring at the top of each `app/ai/*.py` file for exactly what each one
 does and why, and see "OpenAI integration" above for the OpenAI-specific
 behavior and fallback chain.
+#   A I - P r e P r o d u c t i o n - S t u d i o  
+ 
