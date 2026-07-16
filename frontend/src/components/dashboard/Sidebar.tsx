@@ -111,11 +111,11 @@ export function Sidebar() {
           </div>
           <div className="leading-tight">
             <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--gold-dim)]">
-              AI Pre-Production
+              CineOS
             </div>
-            <div className="font-display text-2xl tracking-[0.22em] text-foreground">STUDIO</div>
+            <div className="font-display text-2xl tracking-[0.22em] text-foreground">AI</div>
             <div className="mt-1 text-[10px] text-muted-foreground">
-              Your AI Copilot for Filmmakers
+              From Script to Production
             </div>
           </div>
         </Link>

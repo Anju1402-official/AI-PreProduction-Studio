@@ -9,8 +9,8 @@ import { ApiError, type PlanType } from "@/lib/api";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Sign Up — AI Pre-Production Studio" },
-      { name: "description", content: "Create your AI Pre-Production Studio account." },
+      { title: "Sign Up — CineOS AI" },
+      { name: "description", content: "Create your CineOS AI account." },
     ],
   }),
   component: Signup,
@@ -83,9 +83,9 @@ function Signup() {
           </div>
           <div>
             <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--gold-dim)]">
-              AI Pre-Production
+              CineOS
             </div>
-            <h1 className="font-display text-2xl tracking-[0.18em] text-foreground">STUDIO</h1>
+            <h1 className="font-display text-2xl tracking-[0.18em] text-foreground">AI</h1>
           </div>
         </div>
 

@@ -81,15 +81,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Auteur — Film Production OS" },
-      { name: "description", content: "A cinematic AI operating system for filmmakers." },
-      { name: "author", content: "Auteur Studios" },
-      { property: "og:title", content: "Auteur — Film Production OS" },
-      { property: "og:description", content: "A cinematic AI operating system for filmmakers." },
+      { title: "CineOS AI" },
+      { name: "description", content: "From Script to Production — Powered by AI" },
+      { name: "author", content: "CineOS AI" },
+      { property: "og:title", content: "CineOS AI" },
+      { property: "og:description", content: "From Script to Production — Powered by AI" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Auteur — Film Production OS" },
-      { name: "twitter:description", content: "A cinematic AI operating system for filmmakers." },
+      { name: "twitter:title", content: "CineOS AI" },
+      { name: "twitter:description", content: "From Script to Production — Powered by AI" },
       {
         property: "og:image",
         content:

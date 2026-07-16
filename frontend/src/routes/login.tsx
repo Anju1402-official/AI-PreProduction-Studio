@@ -9,8 +9,8 @@ import { ApiError } from "@/lib/api";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Log In — AI Pre-Production Studio" },
-      { name: "description", content: "Log in to your AI Pre-Production Studio account." },
+      { title: "Log In — CineOS AI" },
+      { name: "description", content: "Log in to your CineOS AI account." },
     ],
   }),
   component: Login,
@@ -71,9 +71,9 @@ function Login() {
           </div>
           <div>
             <div className="text-[10px] uppercase tracking-[0.28em] text-[var(--gold-dim)]">
-              AI Pre-Production
+              CineOS
             </div>
-            <h1 className="font-display text-2xl tracking-[0.18em] text-foreground">STUDIO</h1>
+            <h1 className="font-display text-2xl tracking-[0.18em] text-foreground">AI</h1>
           </div>
         </div>
 

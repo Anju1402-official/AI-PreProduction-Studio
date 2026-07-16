@@ -6,6 +6,7 @@ import { RightPanel } from "@/components/dashboard/RightPanel";
 import { AICreativeSuite } from "@/components/dashboard/AICreativeSuite";
 import { AnalyticsSection } from "@/components/dashboard/AnalyticsSection";
 import { RecentProjects } from "@/components/dashboard/RecentProjects";
+import { WorkflowSteps } from "@/components/dashboard/WorkflowSteps";
 import { LoadingState, ErrorState } from "@/components/dashboard/StatusStates";
 import { useAuth } from "@/lib/auth";
 import { api, ApiError } from "@/lib/api";
@@ -13,14 +14,14 @@ import { api, ApiError } from "@/lib/api";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Pre-Production Studio — Filmmaker Dashboard" },
+      { title: "CineOS AI — Dashboard" },
       {
         name: "description",
         content:
-          "Your AI copilot for filmmakers. Plan, write, direct, and produce from a single cinematic dashboard.",
+          "From Script to Production — Powered by AI",
       },
-      { property: "og:title", content: "AI Pre-Production Studio" },
-      { property: "og:description", content: "Your AI copilot for filmmakers." },
+      { property: "og:title", content: "CineOS AI" },
+      { property: "og:description", content: "From Script to Production — Powered by AI" },
     ],
   }),
   component: Dashboard,
@@ -59,6 +60,7 @@ function Dashboard() {
           ) : (
             <>
               <HeroProject summary={summaryQuery.data} />
+              <WorkflowSteps />
               <AICreativeSuite />
               <AnalyticsSection summary={summaryQuery.data} />
               <RecentProjects summary={summaryQuery.data} />

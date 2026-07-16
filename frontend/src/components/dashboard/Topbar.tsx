@@ -56,6 +56,7 @@ export function Topbar() {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const paletteInputRef = useRef<HTMLInputElement>(null);
+  const lastKeyRef = useRef<{ key: string; time: number }>({ key: "", time: 0 });
 
   const initials = user?.name
     ? user.name
@@ -77,6 +78,31 @@ export function Topbar() {
   // Open the palette with ⌘K / Ctrl-K from anywhere.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
+      // Skip shortcuts when typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+
+      const now = Date.now();
+      const last = lastKeyRef.current;
+
+      if (last.key === "g" && now - last.time < 500) {
+        const shortcuts: Record<string, string> = {
+          d: "/",
+          s: "/script-upload",
+          c: "/copilot",
+          t: "/story-generator",
+          a: "/script-correction",
+        };
+        const target = shortcuts[e.key.toLowerCase()];
+        if (target) {
+          e.preventDefault();
+          navigate({ to: target });
+          lastKeyRef.current = { key: "", time: 0 };
+          return;
+        }
+      }
+
+      lastKeyRef.current = { key: e.key.toLowerCase(), time: now };
+
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPaletteOpen(true);
@@ -326,6 +352,15 @@ export function Topbar() {
                   );
                 })
               )}
+            </div>
+
+            <div className="border-t border-white/5 px-4 py-2.5 flex items-center justify-between text-[10px] text-muted-foreground">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">↑↓</kbd> Navigate</span>
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">↵</kbd> Open</span>
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">esc</kbd> Close</span>
+              </div>
+              <span className="hidden sm:block">g then d/s/c for quick nav</span>
             </div>
           </div>
         </div>
