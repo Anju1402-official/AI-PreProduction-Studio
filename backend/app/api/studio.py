@@ -26,6 +26,8 @@ from __future__ import annotations
 import logging
 from typing import List, Optional
 
+from pydantic import BaseModel
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
@@ -349,3 +351,80 @@ def correct_script(
         "results": results,
         "ai_used": any_ai,
     }
+
+
+# --------------------------------------------------------------------------
+# AI Copilot
+# --------------------------------------------------------------------------
+
+class CopilotRequest(BaseModel):
+    message: str
+    context: Optional[dict] = None
+
+@router.post("/copilot")
+def copilot_chat(
+    body: CopilotRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """AI Copilot — a conversational assistant for filmmakers.
+    Accepts a free-form message and optional context (script_id, scene data, etc.)
+    and returns an intelligent response covering scene improvement, budget optimization,
+    dialogue rewriting, camera suggestions, and more."""
+    from app.services.openai_service import generate_structured, OpenAINotConfiguredError
+
+    context_str = ""
+    if body.context:
+        # If a script_id is provided, fetch some context
+        script_id = body.context.get("script_id")
+        if script_id:
+            script = db.query(Script).filter(Script.id == script_id).first()
+            if script and script.user_id == current_user.id:
+                scenes = db.query(Scene).filter(Scene.script_id == script_id).order_by(Scene.scene_number).limit(5).all()
+                context_str = f"\n\nProject context — Script: '{script.title}', {len(scenes)} scenes loaded."
+                for s in scenes[:3]:
+                    context_str += f"\n  Scene {s.scene_number}: {s.heading or 'Untitled'}"
+
+    system_prompt = f"""You are CineOS AI Copilot — an expert filmmaking assistant. You help with:
+- Scene improvement and rewriting
+- Dialogue polish and character voice
+- Budget optimization and production planning
+- Camera angles and shot composition
+- Story structure and pacing
+- Creative direction and artistic vision
+
+Be concise, specific, and actionable. Format your response with clear sections when appropriate.
+Use markdown formatting for readability.{context_str}"""
+
+    try:
+        result = generate_structured(
+            instructions=system_prompt,
+            input_text=body.message,
+            schema={
+                "type": "object",
+                "properties": {
+                    "response": {"type": "string", "description": "The copilot's response in markdown"},
+                    "suggestions": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "2-3 follow-up suggestions the user might want to ask"
+                    }
+                },
+                "required": ["response", "suggestions"],
+                "additionalProperties": False
+            },
+            schema_name="copilot_response",
+            reasoning_effort="low",
+        )
+        return {
+            "message": result.get("response", "I couldn't generate a response. Please try again."),
+            "suggestions": result.get("suggestions", []),
+        }
+    except OpenAINotConfiguredError:
+        raise HTTPException(
+            status_code=503,
+            detail="AI Copilot requires OpenAI. Set OPENAI_API_KEY in the backend .env file.",
+        )
+    except Exception as exc:
+        logger.exception("Copilot error: %s", exc)
+        raise HTTPException(status_code=500, detail="The AI Copilot encountered an error. Please try again.")

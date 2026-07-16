@@ -14,12 +14,14 @@ import {
   Clapperboard,
   Camera,
   Music2,
+  Bot,
   Wallet,
   ListChecks,
   Image as ImageIcon,
   UserSquare2,
   MapPin,
   AudioLines,
+  Layers,
   Package,
   ArrowRight,
   Coins,
@@ -40,6 +42,12 @@ type Group = { title: string | null; items: Item[] };
 
 const groups: Group[] = [
   { title: null, items: [{ label: "Dashboard", icon: LayoutDashboard, to: "/" }] },
+  {
+    title: "AI Assistant",
+    items: [
+      { label: "AI Copilot", icon: Bot, to: "/copilot", badge: "AI" },
+    ],
+  },
   {
     title: "Create",
     items: [
@@ -67,8 +75,8 @@ const groups: Group[] = [
       { label: "Media Library", icon: ImageIcon, to: "/media-library" },
       { label: "Character Library", icon: UserSquare2, to: "/character-library" },
       { label: "Location Library", icon: MapPin, to: "/location-library" },
-      { label: "Sound Library", icon: AudioLines, to: "/sound-library" },
-      { label: "Props & Assets", icon: Package, to: "/props" },
+      { label: "Storyboard Library", icon: Layers, to: "/sound-library" },
+      { label: "Script Library", icon: FileText, to: "/props" },
     ],
   },
   {

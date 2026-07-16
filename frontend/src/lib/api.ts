@@ -475,6 +475,11 @@ export interface ScriptCorrectionResponse {
   ai_used: boolean;
 }
 
+export interface CopilotResponse {
+  message: string;
+  suggestions: string[];
+}
+
 /* ------------------------------------------------------------------ */
 /* API surface                                                        */
 /* ------------------------------------------------------------------ */
@@ -611,6 +616,9 @@ export const api = {
         method: "POST",
         retries: 0,
       });
+    },
+    copilot(body: { message: string; context?: Record<string, unknown> }) {
+      return request<CopilotResponse>("/studio/copilot", { method: "POST", body, retries: 0 });
     },
   },
 };

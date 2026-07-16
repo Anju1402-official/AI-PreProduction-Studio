@@ -26,6 +26,7 @@ type SearchItem = { label: string; to: string; group: string; keywords?: string 
 
 const SEARCH_ITEMS: SearchItem[] = [
   { label: "Dashboard", to: "/", group: "Navigate", keywords: "home overview studio" },
+  { label: "AI Copilot", to: "/copilot", group: "AI Assistant", keywords: "chat ask help copilot assistant ai" },
   { label: "Script Upload", to: "/script-upload", group: "Create", keywords: "upload screenplay pdf analyze" },
   { label: "Story Generator", to: "/story-generator", group: "Create", keywords: "plot logline ai" },
   { label: "Script Generator", to: "/script-generator", group: "Create", keywords: "screenplay draft ai" },
@@ -38,8 +39,8 @@ const SEARCH_ITEMS: SearchItem[] = [
   { label: "Media Library", to: "/media-library", group: "Asset Library", keywords: "images plates references" },
   { label: "Character Library", to: "/character-library", group: "Asset Library", keywords: "casting wardrobe" },
   { label: "Location Library", to: "/location-library", group: "Asset Library", keywords: "scout permits" },
-  { label: "Sound Library", to: "/sound-library", group: "Asset Library", keywords: "foley ambience music" },
-  { label: "Props & Assets", to: "/props", group: "Asset Library", keywords: "vehicles hero items" },
+  { label: "Storyboard Library", to: "/sound-library", group: "Asset Library", keywords: "storyboard frames panels visual boards" },
+  { label: "Script Library", to: "/props", group: "Asset Library", keywords: "scripts screenplay drafts writing" },
   { label: "Plan & Usage", to: "/credits", group: "Studio", keywords: "billing upgrade plan credits" },
   { label: "Studio Stats", to: "/admin", group: "Studio", keywords: "platform totals metrics" },
 ];

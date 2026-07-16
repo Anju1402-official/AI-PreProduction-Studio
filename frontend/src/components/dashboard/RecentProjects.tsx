@@ -28,7 +28,7 @@ export function RecentProjects({ summary }: { summary?: DashboardSummary }) {
         </Link>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {/* New upload tile */}
         <Link
           to="/script-upload"
@@ -43,7 +43,7 @@ export function RecentProjects({ summary }: { summary?: DashboardSummary }) {
         </Link>
 
         {scripts.length === 0 && (
-          <div className="col-span-full flex min-h-[100px] items-center justify-center rounded-2xl border border-white/5 bg-black/20 text-sm text-muted-foreground sm:col-span-2 md:col-span-2 lg:col-span-5">
+          <div className="col-span-full flex min-h-[100px] items-center justify-center rounded-2xl border border-white/5 bg-black/20 text-sm text-muted-foreground sm:col-span-2 md:col-span-2 lg:col-span-3 xl:col-span-4">
             No scripts uploaded yet — your uploads will show up here.
           </div>
         )}
