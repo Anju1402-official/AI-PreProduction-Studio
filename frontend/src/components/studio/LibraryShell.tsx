@@ -147,7 +147,7 @@ export function LibraryShell({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="fixed inset-y-0 right-0 z-50 w-full max-w-xl overflow-y-auto border-l border-[oklch(0.85_0.155_86/0.15)] bg-[#0b0b0b] p-6 shadow-[var(--shadow-premium)]"
+              className="fixed inset-y-0 right-0 z-50 w-full max-w-xl overflow-y-auto border-l border-[oklch(0.85_0.155_86/0.15)] bg-[#0b0b0b] p-6 sm:p-8 shadow-[var(--shadow-premium)]"
             >
               <div className="mb-5 flex items-start justify-between gap-3">
                 <div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, AnimatePresence } from "framer-motion";
 import { LayoutDashboard, BarChart3, Sparkles, Clapperboard, ArrowLeft } from "lucide-react";
 import { PageHeader, GlassCard } from "@/components/dashboard/StudioLayout";
 import { LoadingState, ErrorState } from "@/components/dashboard/StatusStates";
@@ -87,31 +88,41 @@ export function ScriptDashboard({ scriptId }: { scriptId: number }) {
             })}
           </div>
 
-          {tab === "overview" &&
-            (data.overview ? (
-              <OverviewTab overview={data.overview} />
-            ) : (
-              <GlassCard>
-                <p className="text-sm text-muted-foreground">No overview data available.</p>
-              </GlassCard>
-            ))}
-          {tab === "analysis" &&
-            (data.analysis ? (
-              <AnalysisTab data={data.analysis} />
-            ) : (
-              <GlassCard>
-                <p className="text-sm text-muted-foreground">No analysis data available.</p>
-              </GlassCard>
-            ))}
-          {tab === "recommendations" &&
-            (data.recommendations ? (
-              <RecommendationsTab data={data.recommendations} />
-            ) : (
-              <GlassCard>
-                <p className="text-sm text-muted-foreground">No recommendations available.</p>
-              </GlassCard>
-            ))}
-          {tab === "storyboard" && <StoryboardTab storyboard={data.storyboard} />}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tab}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+            >
+              {tab === "overview" &&
+                (data.overview ? (
+                  <OverviewTab overview={data.overview} />
+                ) : (
+                  <GlassCard>
+                    <p className="text-sm text-muted-foreground">No overview data available.</p>
+                  </GlassCard>
+                ))}
+              {tab === "analysis" &&
+                (data.analysis ? (
+                  <AnalysisTab data={data.analysis} />
+                ) : (
+                  <GlassCard>
+                    <p className="text-sm text-muted-foreground">No analysis data available.</p>
+                  </GlassCard>
+                ))}
+              {tab === "recommendations" &&
+                (data.recommendations ? (
+                  <RecommendationsTab data={data.recommendations} />
+                ) : (
+                  <GlassCard>
+                    <p className="text-sm text-muted-foreground">No recommendations available.</p>
+                  </GlassCard>
+                ))}
+              {tab === "storyboard" && <StoryboardTab storyboard={data.storyboard} />}
+            </motion.div>
+          </AnimatePresence>
         </>
       )}
     </>

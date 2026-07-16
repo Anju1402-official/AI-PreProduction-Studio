@@ -7,10 +7,10 @@ import type { Artifact } from "@/lib/api";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mb-1.5 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
+      <div className="mb-2 text-[10px] font-medium uppercase tracking-[0.24em] text-[var(--gold-dim)]">
         {title}
       </div>
-      <div className="text-sm leading-relaxed text-foreground/90">{children}</div>
+      <div className="text-sm leading-[1.7] text-foreground/90">{children}</div>
     </div>
   );
 }

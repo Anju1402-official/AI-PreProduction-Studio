@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Film, Users, MessageSquare, Coins, Star } from "lucide-react";
 import { GlassCard } from "@/components/dashboard/StudioLayout";
 import type { DashboardOverview } from "@/lib/api";
@@ -9,37 +10,32 @@ export function OverviewTab({ overview }: { overview: DashboardOverview }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <GlassCard>
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
-            <Film className="h-3.5 w-3.5" /> Scenes
-          </div>
-          <div className="mt-2 font-display text-4xl text-foreground">{overview.total_scenes}</div>
-        </GlassCard>
-        <GlassCard>
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
-            <Users className="h-3.5 w-3.5" /> Characters
-          </div>
-          <div className="mt-2 font-display text-4xl text-foreground">
-            {overview.total_characters}
-          </div>
-        </GlassCard>
-        <GlassCard>
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
-            <MessageSquare className="h-3.5 w-3.5" /> Dialogue Words
-          </div>
-          <div className="mt-2 font-display text-4xl text-foreground">
-            {overview.total_words_of_dialogue}
-          </div>
-        </GlassCard>
-        <GlassCard>
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
-            <Coins className="h-3.5 w-3.5" /> Budget Risk
-          </div>
-          <div className="mt-2 font-display text-4xl text-foreground">
-            {cost ? `${cost.budget_risk_score}` : "—"}
-            <span className="text-sm text-muted-foreground"> /100</span>
-          </div>
-        </GlassCard>
+        {[
+          { icon: Film, label: "Scenes", value: String(overview.total_scenes) },
+          { icon: Users, label: "Characters", value: String(overview.total_characters) },
+          { icon: MessageSquare, label: "Dialogue Words", value: String(overview.total_words_of_dialogue) },
+          { icon: Coins, label: "Budget Risk", value: cost ? `${cost.budget_risk_score}` : "—", suffix: "/100" },
+        ].map((stat, i) => {
+          const Icon = stat.icon;
+          return (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+            >
+              <GlassCard className="transition-shadow duration-300 hover:shadow-[0_0_24px_-8px_var(--gold-bright)]">
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
+                  <Icon className="h-3.5 w-3.5" /> {stat.label}
+                </div>
+                <div className="mt-2 font-display text-4xl text-foreground">
+                  {stat.value}
+                  {stat.suffix && <span className="text-sm text-muted-foreground"> {stat.suffix}</span>}
+                </div>
+              </GlassCard>
+            </motion.div>
+          );
+        })}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -54,7 +50,7 @@ export function OverviewTab({ overview }: { overview: DashboardOverview }) {
               {overview.top_scenes.map((s) => (
                 <li
                   key={s.scene_number}
-                  className="flex items-center justify-between rounded-lg border border-white/5 bg-black/20 px-3 py-2 text-sm"
+                  className="flex items-center justify-between rounded-lg border border-white/5 bg-black/20 px-3 py-2 text-sm transition-colors duration-200 hover:border-[oklch(0.85_0.155_86/0.2)] hover:bg-black/30"
                 >
                   <span className="truncate text-foreground/90">
                     S{s.scene_number} · {s.scene_heading || "Untitled scene"}

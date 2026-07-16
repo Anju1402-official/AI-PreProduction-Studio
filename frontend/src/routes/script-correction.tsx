@@ -187,7 +187,7 @@ function ScriptCorrection() {
                       </div>
                       <ul className="space-y-3">
                         {scene.issues.map((issue, j) => (
-                          <li key={j} className="rounded-lg border border-white/5 bg-black/20 p-3">
+                          <li key={j} className="rounded-lg border border-white/5 bg-black/20 p-3 transition-all duration-200 hover:border-white/10 hover:bg-black/30">
                             <div className="flex items-center gap-2">
                               <span
                                 className={`rounded-full border px-2 py-0.5 text-[9px] uppercase tracking-widest ${
