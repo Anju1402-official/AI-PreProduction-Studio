@@ -4,15 +4,18 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
+import { StartupAnimation } from "../components/startup/StartupAnimation";
 
 function NotFoundComponent() {
   return (
@@ -79,15 +82,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Auteur — Film Production OS" },
-      { name: "description", content: "A cinematic AI operating system for filmmakers." },
-      { name: "author", content: "Auteur Studios" },
-      { property: "og:title", content: "Auteur — Film Production OS" },
-      { property: "og:description", content: "A cinematic AI operating system for filmmakers." },
+      { title: "CineOS AI" },
+      { name: "description", content: "From Script to Production — Powered by AI" },
+      { name: "author", content: "CineOS AI" },
+      { property: "og:title", content: "CineOS AI" },
+      { property: "og:description", content: "From Script to Production — Powered by AI" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Auteur — Film Production OS" },
-      { name: "twitter:description", content: "A cinematic AI operating system for filmmakers." },
+      { name: "twitter:title", content: "CineOS AI" },
+      { name: "twitter:description", content: "From Script to Production — Powered by AI" },
       {
         property: "og:image",
         content:
@@ -131,14 +134,27 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
-        <Toaster position="top-right" theme="dark" />
-      </AuthProvider>
-    </QueryClientProvider>
+    <StartupAnimation>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
+          <Toaster position="top-right" theme="dark" />
+        </AuthProvider>
+      </QueryClientProvider>
+    </StartupAnimation>
   );
 }

@@ -139,7 +139,9 @@ function ScriptUpload() {
             className={`relative flex min-h-[280px] flex-col items-center justify-center rounded-xl border-2 border-dashed transition-all ${
               dragging
                 ? "border-[var(--gold-bright)] bg-[oklch(0.85_0.155_86/0.08)]"
-                : "border-white/10 bg-black/30"
+                : pendingFile
+                  ? "border-emerald-400/40 bg-emerald-400/5"
+                  : "border-white/10 bg-black/30"
             }`}
           >
             <input
@@ -160,7 +162,9 @@ function ScriptUpload() {
               {pendingFile ? pendingFile.name : "Drop your screenplay here"}
             </h3>
             <p className="mt-1 text-xs text-muted-foreground">
-              PDF or TXT — full analysis runs automatically
+              {pendingFile
+                ? `${(pendingFile.size / 1024).toFixed(1)} KB — ready to upload`
+                : "PDF or TXT — full analysis runs automatically"}
             </p>
             <div className="mt-6">
               <GoldButton onClick={() => fileInputRef.current?.click()}>

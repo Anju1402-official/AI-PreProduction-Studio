@@ -5,8 +5,15 @@ import { GlassCard, GoldButton } from "@/components/dashboard/StudioLayout";
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
     <GlassCard className="flex min-h-[280px] flex-col items-center justify-center text-center">
-      <Loader2 className="h-7 w-7 animate-spin text-[var(--gold-bright)]" />
-      <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
+      <div className="w-full space-y-4">
+        <div className="mx-auto h-3 w-48 rounded-full bg-white/5 animate-shimmer" />
+        <div className="mx-auto h-3 w-64 rounded-full bg-white/5 animate-shimmer" style={{ animationDelay: "0.15s" }} />
+        <div className="mx-auto h-3 w-40 rounded-full bg-white/5 animate-shimmer" style={{ animationDelay: "0.3s" }} />
+      </div>
+      <div className="mt-6 flex items-center gap-2">
+        <Loader2 className="h-4 w-4 animate-spin text-[var(--gold-bright)]" />
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
+      </div>
     </GlassCard>
   );
 }
@@ -49,6 +56,20 @@ export function EmptyState({
       <h3 className="mt-4 font-display text-lg text-foreground">{title}</h3>
       <p className="mt-1 max-w-md text-sm text-muted-foreground">{description}</p>
       {action && <div className="mt-5">{action}</div>}
+    </GlassCard>
+  );
+}
+
+export function SkeletonCard({ lines = 3 }: { lines?: number }) {
+  return (
+    <GlassCard className="animate-pulse">
+      <div className="space-y-3">
+        <div className="h-3 w-24 rounded-full bg-white/5" />
+        <div className="h-8 w-32 rounded-full bg-white/5" />
+        {Array.from({ length: lines }).map((_, i) => (
+          <div key={i} className="h-2.5 rounded-full bg-white/5" style={{ width: `${70 + Math.random() * 30}%` }} />
+        ))}
+      </div>
     </GlassCard>
   );
 }

@@ -23,7 +23,7 @@ export function StoryboardTab({ storyboard }: { storyboard: StoryboardResponse |
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: Math.min(i * 0.04, 0.5) }}
         >
-          <GlassCard className="flex h-full flex-col">
+          <GlassCard className="flex h-full flex-col transition-all duration-300 hover:border-[oklch(0.85_0.155_86/0.25)] hover:shadow-[0_0_24px_-8px_var(--gold-bright)]">
             <div className="mb-2 flex items-center justify-between">
               <span className="font-mono text-xs text-[var(--gold-bright)]">
                 Panel {panel.panel_number}

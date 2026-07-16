@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # remain as an automatic fallback if OpenAI is unreachable, mis-
     # configured, or rate-limited -- see app/services/openai_service.py.
     OPENAI_API_KEY: str = ""
-    OPENAI_MODEL: str = "gpt-5-nano"
+    OPENAI_MODEL: str = "gpt-5.5"
     # Per-request timeout in seconds. GPT-5-class "nano" models are meant to
     # be fast; a generous-but-bounded timeout keeps a stuck request from
     # hanging the upload pipeline indefinitely.

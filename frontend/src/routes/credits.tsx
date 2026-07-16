@@ -106,12 +106,15 @@ function Credits() {
                 return (
                   <GlassCard
                     key={p.plan_type}
-                    className={isCurrent ? "ring-1 ring-[oklch(0.85_0.155_86/0.5)]" : ""}
+                    className={`relative overflow-hidden ${isCurrent ? "ring-1 ring-[oklch(0.85_0.155_86/0.5)]" : ""}`}
                   >
                     {isCurrent && (
-                      <div className="mb-2 inline-block rounded-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-black">
-                        Current Plan
-                      </div>
+                      <>
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-bright)] to-transparent" />
+                        <div className="mb-2 inline-block rounded-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-black">
+                          Current Plan
+                        </div>
+                      </>
                     )}
                     <h3 className="font-display text-xl text-foreground">{p.name}</h3>
                     <div className="mt-2 font-display text-2xl">
@@ -121,8 +124,8 @@ function Credits() {
                     </div>
                     <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                       {p.features.map((f) => (
-                        <li key={f} className="flex items-center gap-2">
-                          <span className="h-1 w-1 rounded-full bg-[var(--gold-bright)]" /> {f}
+                        <li key={f} className="flex items-start gap-2">
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--gold-bright)]" /> {f}
                         </li>
                       ))}
                     </ul>

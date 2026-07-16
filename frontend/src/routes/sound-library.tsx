@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LibraryShell } from "@/components/studio/LibraryShell";
 
 export const Route = createFileRoute("/sound-library")({
-  head: () => ({ meta: [{ title: "Sound Library — Studio" }] }),
+  head: () => ({ meta: [{ title: "Storyboard Library — CineOS AI" }] }),
   component: () => (
     <LibraryShell
       eyebrow="Asset Library"

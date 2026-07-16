@@ -49,17 +49,34 @@ export function PipelineProgress({
         </p>
       </div>
 
-      <div className="flex w-full max-w-md items-center gap-1.5">
-        {STAGE_ORDER.slice(0, -1).map((s, i) => (
-          <div
-            key={s}
-            className={`h-1.5 flex-1 rounded-full transition-colors ${
-              i <= currentIndex
-                ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)]"
-                : "bg-white/5"
-            }`}
-          />
-        ))}
+      <div className="flex w-full max-w-md flex-col gap-2">
+        <div className="flex items-center gap-1.5">
+          {STAGE_ORDER.slice(0, -1).map((s, i) => (
+            <div key={s} className="relative h-2 flex-1">
+              {i === currentIndex ? (
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)]"
+                  animate={{ opacity: [0.6, 1, 0.6] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  style={{ boxShadow: "0 0 12px -2px var(--gold-bright)" }}
+                />
+              ) : (
+                <div
+                  className={`h-full rounded-full transition-colors duration-500 ${
+                    i < currentIndex
+                      ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-bright)]"
+                      : "bg-white/5"
+                  }`}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between text-[9px] uppercase tracking-widest text-muted-foreground">
+          <span>Parse</span>
+          <span>Analyze</span>
+          <span>Generate</span>
+        </div>
       </div>
     </div>
   );

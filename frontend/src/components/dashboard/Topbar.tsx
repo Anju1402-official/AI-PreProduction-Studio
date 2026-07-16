@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  BarChart3,
   Bell,
+  Bot,
   ChevronDown,
   LogOut,
   Menu,
@@ -26,6 +28,7 @@ type SearchItem = { label: string; to: string; group: string; keywords?: string 
 
 const SEARCH_ITEMS: SearchItem[] = [
   { label: "Dashboard", to: "/", group: "Navigate", keywords: "home overview studio" },
+  { label: "AI Copilot", to: "/copilot", group: "AI Assistant", keywords: "chat ask help copilot assistant ai" },
   { label: "Script Upload", to: "/script-upload", group: "Create", keywords: "upload screenplay pdf analyze" },
   { label: "Story Generator", to: "/story-generator", group: "Create", keywords: "plot logline ai" },
   { label: "Script Generator", to: "/script-generator", group: "Create", keywords: "screenplay draft ai" },
@@ -38,8 +41,8 @@ const SEARCH_ITEMS: SearchItem[] = [
   { label: "Media Library", to: "/media-library", group: "Asset Library", keywords: "images plates references" },
   { label: "Character Library", to: "/character-library", group: "Asset Library", keywords: "casting wardrobe" },
   { label: "Location Library", to: "/location-library", group: "Asset Library", keywords: "scout permits" },
-  { label: "Sound Library", to: "/sound-library", group: "Asset Library", keywords: "foley ambience music" },
-  { label: "Props & Assets", to: "/props", group: "Asset Library", keywords: "vehicles hero items" },
+  { label: "Storyboard Library", to: "/sound-library", group: "Asset Library", keywords: "storyboard frames panels visual boards" },
+  { label: "Script Library", to: "/props", group: "Asset Library", keywords: "scripts screenplay drafts writing" },
   { label: "Plan & Usage", to: "/credits", group: "Studio", keywords: "billing upgrade plan credits" },
   { label: "Studio Stats", to: "/admin", group: "Studio", keywords: "platform totals metrics" },
 ];
@@ -55,6 +58,7 @@ export function Topbar() {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const paletteInputRef = useRef<HTMLInputElement>(null);
+  const lastKeyRef = useRef<{ key: string; time: number }>({ key: "", time: 0 });
 
   const initials = user?.name
     ? user.name
@@ -76,6 +80,31 @@ export function Topbar() {
   // Open the palette with ⌘K / Ctrl-K from anywhere.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
+      // Skip shortcuts when typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+
+      const now = Date.now();
+      const last = lastKeyRef.current;
+
+      if (last.key === "g" && now - last.time < 500) {
+        const shortcuts: Record<string, string> = {
+          d: "/",
+          s: "/script-upload",
+          c: "/copilot",
+          t: "/story-generator",
+          a: "/script-correction",
+        };
+        const target = shortcuts[e.key.toLowerCase()];
+        if (target) {
+          e.preventDefault();
+          navigate({ to: target });
+          lastKeyRef.current = { key: "", time: 0 };
+          return;
+        }
+      }
+
+      lastKeyRef.current = { key: e.key.toLowerCase(), time: now };
+
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPaletteOpen(true);
@@ -184,19 +213,29 @@ export function Topbar() {
                   <ul className="space-y-1">
                     {[
                       {
-                        title: "Welcome to the studio",
-                        body: "Upload a screenplay to kick off your first analysis.",
+                        title: "Welcome to CineOS AI",
+                        body: "Upload a screenplay to kick off your first AI analysis.",
+                        time: "Just now",
                       },
                       {
-                        title: "Pipeline ready",
+                        title: "AI Pipeline Ready",
                         body: "Character, emotion, shot, and budget analysis run automatically.",
+                        time: "2m ago",
+                      },
+                      {
+                        title: "GPT-5.5 Connected",
+                        body: "All AI generators are powered by the latest model.",
+                        time: "5m ago",
                       },
                     ].map((n) => (
                       <li
                         key={n.title}
                         className="rounded-lg border border-white/5 bg-black/30 px-3 py-2"
                       >
-                        <div className="text-xs text-foreground">{n.title}</div>
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-foreground">{n.title}</div>
+                          <div className="text-[9px] text-[var(--gold-dim)]">{n.time}</div>
+                        </div>
                         <div className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
                           {n.body}
                         </div>
@@ -250,6 +289,21 @@ export function Topbar() {
                   >
                     <UserIcon className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> Plan & Usage
                   </Link>
+                  <Link
+                    to="/copilot"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-foreground transition hover:bg-white/5"
+                  >
+                    <Bot className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> AI Copilot
+                  </Link>
+                  <Link
+                    to="/admin"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-foreground transition hover:bg-white/5"
+                  >
+                    <BarChart3 className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> Studio Stats
+                  </Link>
+                  <div className="my-1 h-px bg-white/5" />
                   <button
                     onClick={() => {
                       setMenuOpen(false);
@@ -325,6 +379,15 @@ export function Topbar() {
                   );
                 })
               )}
+            </div>
+
+            <div className="border-t border-white/5 px-4 py-2.5 flex items-center justify-between text-[10px] text-muted-foreground">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">↑↓</kbd> Navigate</span>
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">↵</kbd> Open</span>
+                <span className="flex items-center gap-1"><kbd className="rounded border border-white/10 bg-white/5 px-1 py-0.5">esc</kbd> Close</span>
+              </div>
+              <span className="hidden sm:block">g then d/s/c for quick nav</span>
             </div>
           </div>
         </div>

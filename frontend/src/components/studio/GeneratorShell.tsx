@@ -99,13 +99,13 @@ export function GeneratorShell({
                     onChange={(e) => setField(field.name, e.target.value)}
                     rows={4}
                     placeholder={field.placeholder}
-                    className="w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:outline-none"
+                    className="w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:shadow-[0_0_12px_-4px_oklch(0.85_0.155_86/0.3)] focus:outline-none transition-shadow"
                   />
                 ) : field.type === "select" ? (
                   <select
                     value={values[field.name]}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:outline-none"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:shadow-[0_0_12px_-4px_oklch(0.85_0.155_86/0.3)] focus:outline-none transition-shadow"
                   >
                     <option value="">Any</option>
                     {field.options?.map((o) => (
@@ -122,7 +122,7 @@ export function GeneratorShell({
                     value={values[field.name]}
                     onChange={(e) => setField(field.name, e.target.value)}
                     placeholder={field.placeholder}
-                    className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:outline-none"
+                    className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[oklch(0.85_0.155_86/0.45)] focus:shadow-[0_0_12px_-4px_oklch(0.85_0.155_86/0.3)] focus:outline-none transition-shadow"
                   />
                 )}
               </div>
@@ -166,15 +166,19 @@ export function GeneratorShell({
           {mutation.isPending ? (
             <GlassCard className="flex min-h-[360px] flex-col items-center justify-center text-center">
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                animate={{ rotate: 360, boxShadow: ["0 0 20px -4px oklch(0.85 0.155 86 / 0.15)", "0 0 32px -2px oklch(0.85 0.155 86 / 0.35)", "0 0 20px -4px oklch(0.85 0.155 86 / 0.15)"] }}
+                transition={{ rotate: { repeat: Infinity, duration: 2, ease: "linear" }, boxShadow: { repeat: Infinity, duration: 1.8, ease: "easeInOut" } }}
                 className="grid h-14 w-14 place-items-center rounded-2xl border border-[oklch(0.85_0.155_86/0.35)] bg-gradient-to-br from-[#1a1408] to-black"
               >
                 <Sparkles className="h-6 w-6 text-[var(--gold-bright)]" />
               </motion.div>
-              <p className="mt-4 text-xs uppercase tracking-widest text-muted-foreground">
+              <motion.p
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="mt-4 text-xs uppercase tracking-widest text-[var(--gold-dim)]"
+              >
                 Composing with AI…
-              </p>
+              </motion.p>
             </GlassCard>
           ) : result ? (
             <motion.div
