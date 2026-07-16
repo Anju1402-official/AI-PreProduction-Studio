@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  BarChart3,
   Bell,
+  Bot,
   ChevronDown,
   LogOut,
   Menu,
@@ -211,19 +213,29 @@ export function Topbar() {
                   <ul className="space-y-1">
                     {[
                       {
-                        title: "Welcome to the studio",
-                        body: "Upload a screenplay to kick off your first analysis.",
+                        title: "Welcome to CineOS AI",
+                        body: "Upload a screenplay to kick off your first AI analysis.",
+                        time: "Just now",
                       },
                       {
-                        title: "Pipeline ready",
+                        title: "AI Pipeline Ready",
                         body: "Character, emotion, shot, and budget analysis run automatically.",
+                        time: "2m ago",
+                      },
+                      {
+                        title: "GPT-5.5 Connected",
+                        body: "All AI generators are powered by the latest model.",
+                        time: "5m ago",
                       },
                     ].map((n) => (
                       <li
                         key={n.title}
                         className="rounded-lg border border-white/5 bg-black/30 px-3 py-2"
                       >
-                        <div className="text-xs text-foreground">{n.title}</div>
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-foreground">{n.title}</div>
+                          <div className="text-[9px] text-[var(--gold-dim)]">{n.time}</div>
+                        </div>
                         <div className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
                           {n.body}
                         </div>
@@ -277,6 +289,21 @@ export function Topbar() {
                   >
                     <UserIcon className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> Plan & Usage
                   </Link>
+                  <Link
+                    to="/copilot"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-foreground transition hover:bg-white/5"
+                  >
+                    <Bot className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> AI Copilot
+                  </Link>
+                  <Link
+                    to="/admin"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-foreground transition hover:bg-white/5"
+                  >
+                    <BarChart3 className="h-3.5 w-3.5 text-[var(--gold-bright)]" /> Studio Stats
+                  </Link>
+                  <div className="my-1 h-px bg-white/5" />
                   <button
                     onClick={() => {
                       setMenuOpen(false);

@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { Toaster } from "../components/ui/sonner";
+import { StartupAnimation } from "../components/startup/StartupAnimation";
 
 function NotFoundComponent() {
   return (
@@ -136,22 +137,24 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
-        <Toaster position="top-right" theme="dark" />
-      </AuthProvider>
-    </QueryClientProvider>
+    <StartupAnimation>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
+          <Toaster position="top-right" theme="dark" />
+        </AuthProvider>
+      </QueryClientProvider>
+    </StartupAnimation>
   );
 }

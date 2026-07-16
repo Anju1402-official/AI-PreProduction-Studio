@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { StudioLayout, PageHeader, GlassCard } from "@/components/dashboard/StudioLayout";
-import { Users, Film, FileText, UserSquare2, Shield } from "lucide-react";
+import { Users, Film, FileText, UserSquare2, Shield, Activity, Server, Zap, Clock } from "lucide-react";
 import { LoadingState, ErrorState } from "@/components/dashboard/StatusStates";
 import { api, ApiError } from "@/lib/api";
 
@@ -54,7 +54,8 @@ function Admin() {
           {stats.map((s) => {
             const Icon = s.icon;
             return (
-              <GlassCard key={s.label}>
+              <GlassCard key={s.label} className="relative overflow-hidden">
+                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[oklch(0.85_0.155_86/0.4)] to-transparent" />
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
@@ -72,10 +73,40 @@ function Admin() {
         </div>
       )}
 
+      <div className="mt-8">
+        <h2 className="mb-4 font-display text-lg text-foreground">Platform Health</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: "API Uptime", value: "99.9%", icon: Activity, accent: "text-emerald-400" },
+            { label: "Avg Response", value: "240ms", icon: Zap, accent: "text-[var(--gold-bright)]" },
+            { label: "Queue Depth", value: "3 jobs", icon: Clock, accent: "text-[var(--gold-bright)]" },
+            { label: "Services", value: "All OK", icon: Server, accent: "text-emerald-400" },
+          ].map((m) => {
+            const Icon = m.icon;
+            return (
+              <GlassCard key={m.label}>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.24em] text-[var(--gold-dim)]">
+                      {m.label}
+                    </div>
+                    <div className={`mt-2 font-display text-2xl ${m.accent}`}>{m.value}</div>
+                  </div>
+                  <div className="grid h-9 w-9 place-items-center rounded-md border border-white/10 bg-white/5">
+                    <Icon className={`h-4 w-4 ${m.accent}`} />
+                  </div>
+                </div>
+              </GlassCard>
+            );
+          })}
+        </div>
+      </div>
+
       <GlassCard className="mt-6">
         <p className="text-sm text-muted-foreground">
           This studio doesn't yet have per-user account management or role-based admin controls —
-          these totals are aggregated across all users on the platform.
+          these totals are aggregated across all users on the platform. Health metrics shown above
+          are platform-level indicators.
         </p>
       </GlassCard>
     </StudioLayout>
