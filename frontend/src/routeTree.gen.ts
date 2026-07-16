@@ -24,6 +24,7 @@ import { Route as MediaLibraryRouteImport } from './routes/media-library'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LocationLibraryRouteImport } from './routes/location-library'
 import { Route as CreditsRouteImport } from './routes/credits'
+import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as CharacterLibraryRouteImport } from './routes/character-library'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -105,6 +106,11 @@ const CreditsRoute = CreditsRouteImport.update({
   path: '/credits',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CharactersRoute = CharactersRouteImport.update({
   id: '/characters',
   path: '/characters',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/character-library': typeof CharacterLibraryRoute
   '/characters': typeof CharactersRoute
+  '/copilot': typeof CopilotRoute
   '/credits': typeof CreditsRoute
   '/location-library': typeof LocationLibraryRoute
   '/login': typeof LoginRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/character-library': typeof CharacterLibraryRoute
   '/characters': typeof CharactersRoute
+  '/copilot': typeof CopilotRoute
   '/credits': typeof CreditsRoute
   '/location-library': typeof LocationLibraryRoute
   '/login': typeof LoginRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/character-library': typeof CharacterLibraryRoute
   '/characters': typeof CharactersRoute
+  '/copilot': typeof CopilotRoute
   '/credits': typeof CreditsRoute
   '/location-library': typeof LocationLibraryRoute
   '/login': typeof LoginRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/character-library'
     | '/characters'
+    | '/copilot'
     | '/credits'
     | '/location-library'
     | '/login'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/character-library'
     | '/characters'
+    | '/copilot'
     | '/credits'
     | '/location-library'
     | '/login'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/character-library'
     | '/characters'
+    | '/copilot'
     | '/credits'
     | '/location-library'
     | '/login'
@@ -272,6 +284,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   CharacterLibraryRoute: typeof CharacterLibraryRoute
   CharactersRoute: typeof CharactersRoute
+  CopilotRoute: typeof CopilotRoute
   CreditsRoute: typeof CreditsRoute
   LocationLibraryRoute: typeof LocationLibraryRoute
   LoginRoute: typeof LoginRoute
@@ -397,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreditsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/characters': {
       id: '/characters'
       path: '/characters'
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   CharacterLibraryRoute: CharacterLibraryRoute,
   CharactersRoute: CharactersRoute,
+  CopilotRoute: CopilotRoute,
   CreditsRoute: CreditsRoute,
   LocationLibraryRoute: LocationLibraryRoute,
   LoginRoute: LoginRoute,
